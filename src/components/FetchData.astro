@@ -1,0 +1,14 @@
+---
+export async function getData(key) {
+	const api = "https://lensdata.b-cdn.net/data.json";
+	const response = await fetch(api);
+	const data = await response.json();
+	if(key=='posts'){
+		var mydata = data.categories.filter(x => x.slug == 'canon-ef')[0].posts;
+	}else{
+		var mydata = data;
+	}
+	return mydata;
+}
+// export const posts = data.categories.filter(x => x.slug == 'canon-ef')[0].posts;
+---

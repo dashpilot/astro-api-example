@@ -1,0 +1,33 @@
+---
+
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
+const title = "Hello World";
+
+import {getData} from '../components/FetchData.astro';
+const posts = await getData('posts');
+console.log(posts)
+
+---
+
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header title={SITE_TITLE} />
+		<main>
+			<h1>{title}</h1>
+			
+			{posts.map((item) => (
+				<a href={item.slug}>{item.title}</a><br>
+			  ))}
+			 
+			
+		</main>
+		<Footer />
+	</body>
+</html>
