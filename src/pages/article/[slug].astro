@@ -1,0 +1,129 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION} from '../../config';
+import {getData} from '../../components/FetchData.astro';
+const posts = await getData('posts');
+
+export async function getStaticPaths() {
+  const posts = await getData('posts');
+  return posts.map(item => {
+	  var slug = item.slug;
+	return {
+	  params: { slug },
+	  props: { item },
+	};
+  });
+}
+
+const { slug } = Astro.params;
+const { item } = Astro.props;
+
+const static_path = "https://lensdata.b-cdn.net/img/";
+---
+
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			ul {
+				list-style-type: none;
+				padding: unset;
+			}
+			ul li {
+				display: flex;
+			}
+			ul li time {
+				flex: 0 0 130px;
+				font-style: italic;
+				color: #888;
+			}
+			ul li a:visited {
+				color: #8e32dc;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>{item.title}</h1>
+			
+			<div class="img-wrap">
+			  <img src={static_path+item.main_image} />
+			</div>
+			
+			<p>Filter size: {item.filter_size}mm</p>
+			
+			{item.tele && (
+				<div>@{item.wide}mm</div>
+			)}
+			
+			<!--
+			
+			<table class="table table-striped table-hover">
+				<tbody>
+				  <tr>
+					<td class="w-50">
+					  <strong>Center Sharpness {if(item.tele) @{{item.wide}}mm</template>:</strong>
+					</td>
+					<td class="w-50">
+					  f/{{item.wide_center_sharpness}}
+					</td>
+				  </tr>
+				  <tr>
+					<td>
+					  <strong>Corner Sharpness<template v-if="item.tele"> @{{item.wide}}mm</template>:</strong>
+					</td>
+					<td>
+					  f/{{item.wide_corner_sharpness}}
+					</td>
+				  </tr>
+				  <template v-if="item.tele">
+					<tr>
+					  <td>
+						<strong>Center sharpness @{{item.tele}}mm:</strong>
+					  </td>
+					  <td>
+						f/{{item.tele_center_sharpness}}
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<strong>Corner sharpness @{{item.tele}}mm:</strong>
+					  </td>
+					  <td>
+						f/{{item.tele_corner_sharpness}}
+					  </td>
+					</tr>
+				  </template>
+				  <template v-if="item.diffraction">
+					<tr>
+					  <td>
+						<strong>Diffraction:</strong>
+					  </td>
+					  <td>
+						f/{{item.diffraction}}
+					  </td>
+					</tr>
+				  </template>
+				  <template v-if="item.filter_size">
+					<tr>
+					  <td>
+						<strong>Filter Size:</strong>
+					  </td>
+					  <td>
+						{{item.filter_size}}mm
+					  </td>
+					</tr>
+				  </template>
+				</tbody>
+			  </table>
+			  
+			  -->
+			
+			
+		</main>
+	</body>
+</html>

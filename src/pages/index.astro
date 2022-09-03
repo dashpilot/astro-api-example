@@ -9,7 +9,7 @@ const title = "Hello World";
 import {getData} from '../components/FetchData.astro';
 const posts = await getData('posts');
 console.log(posts)
-
+const prefix = "/article/";
 ---
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ console.log(posts)
 			<h1>{title}</h1>
 			
 			{posts.map((item) => (
-				<a href={item.slug}>{item.title}</a><br>
+				<a href={prefix+item.slug}>{item.title}</a><br>
 			  ))}
 			 
 			
